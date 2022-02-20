@@ -5,5 +5,5 @@ Creating a REST Api with Flask and Python.
 
 ## Install and Set Up
 ```
-pip install flask
+pip install -r requirements.txt
 ```
