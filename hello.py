@@ -1,10 +1,15 @@
 from flask import Flask
 
-app = Flask(__name__)
+app = Flask(__name__) #Create an instance of the class
 
-@app.route('/', methods=['GET', 'POST'])
-def hello_world():
-    return "Hello World!"
+@app.route('/<int:number>/')
+def incrementer(number):
+    return "Incremented number is " + str(number+1)
+
+@app.route('/<string:name>/')
+def hello(name):
+    return "Hello " + name
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=105)
+    app.run(host='0.0.0.0', port=105) #Run the Flask application on a specific PORT
