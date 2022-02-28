@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import jsonify, request
+from flask import render_template
 
 app = Flask(__name__)
 
@@ -16,10 +17,11 @@ stores =[
 	}
 ]
 
-# --- HOME PAGE----
+# --- Java Web ----
 @app.route("/") #decorator to tell Flask what URL should trigger our function.
 def home():
-	return "Welcome to the Home page"
+	return render_template("index.html")
+
 
 # --- Request methods ---
 @app.route("/store", methods=["POST"]) # POST request
