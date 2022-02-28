@@ -11,6 +11,10 @@
 	    xmlHttp.open("GET", theUrl, true); // true for asynchronous
 	    xmlHttp.send(null);
 	}
+	<!--route the home url to /store endpoint-->
+	httpGetAsync("http://127.0.0.1:5001/store", function(response) {
+		alert(response);
+	})
 </script>
 </head>
 <body>
