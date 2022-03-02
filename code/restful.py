@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Resource, Api
+from flask import request
 
 app = Flask(__name__)
 api = Api(app)
@@ -19,8 +20,11 @@ class Item(Resource):#inherets from Resource class
 		return {"item": None}, 404 #return null and 404 (not found) http status code
 
 
+	#POST Method
 	def post(self, name):
-		item = {"name": name, "price": 12}
+		data = request.get_json() #force=True 
+
+		item = {"name": name, "price": data["price"]}
 		items.append(item)
 		return item, 201 #return item and 201 (created) http status code
 
