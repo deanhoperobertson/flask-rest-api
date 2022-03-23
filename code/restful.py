@@ -1,10 +1,20 @@
 from flask import Flask
 from flask_restful import Resource, Api
 from flask import request
+from flask_jwt import JWT, jwt_required
+
+from security import authenticate, indentity
 
 app = Flask(__name__)
+app.secret_key = 'dean'
 api = Api(app)
 
+'''
+this function creates a new endpoint /auth
+which processing the credentials and returns
+an encoded JW token
+'''
+jwt = JWT(app, authenticate, indentity)
 
 #in memory data store
 items =[]
@@ -12,8 +22,9 @@ items =[]
 
 class Item(Resource):#inherets from Resource class
 
-	#GET method
-	def get(sel, name):
+	#decorator
+	@jwt_required()
+	def get(self, name):
 		
 		# filter func returns iterator, so need next() to return single item.
 		# add None so next() doesnt raise error if there are no items
@@ -21,7 +32,7 @@ class Item(Resource):#inherets from Resource class
 		# for item in items:
 		# 	if item["name"]==name:
 		# 		return item
-		return {"item": None}, 200 if item else 404 #return null and 404 (not found) http status code
+		return {"item": item}, 200 if item else 404 #return null and 404 (not found) http status code
 
 
 	#POST Method
@@ -42,7 +53,7 @@ class Itemlist(Resource):
 		return {"items": items}
 
 
-#add class resouce to api and define endpoint (similar to @app.route())
+#add class resource to api and define endpoint (similar to @app.route())
 api.add_resource(Item, "/item/<string:name>")
 api.add_resource(Itemlist, "/items/")
 
