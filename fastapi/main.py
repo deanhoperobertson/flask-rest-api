@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 import os
+import secrets
 
 app = FastAPI()
 
@@ -27,10 +28,10 @@ def show_secret_data(request: Request):
 	password = request.headers.get('password')
 
 	if all([username, password]):
-		if username == USERNAME and password ==PASSWORD:
+		if secrets.compare_digest(username, USERNAME) and secrets.compare_digest(password, PASSWORD):
 			return database
 		else:
 			return 'Credentials are not authorized to view this data.'
 
 	else:
-		return 'Missing username and password.'
+		return 'Missing username or password.'
