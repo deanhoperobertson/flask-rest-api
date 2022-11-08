@@ -48,6 +48,13 @@ class Item(Resource):#inherets from Resource class
 		return item, 201 #return item and 201 (created) http status code
 
 
+	def delete (self, name):
+		global items
+		items = list(filter( x: x['name'] != name, items))
+		return {'message': 'Item deleted'}
+
+
+
 class Itemlist(Resource):
 	def get(self):
 		return {"items": items}
